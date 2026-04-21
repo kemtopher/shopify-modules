@@ -17,4 +17,3 @@
 - `app/graphql-fragments.ts`
 - `app/bulk-operation-run.ts`
 - `app/webhook-verify.ts`
-# shopify-modules
