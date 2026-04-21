@@ -1,0 +1,40 @@
+{%- comment -%}
+Usage:
+  {% render 'responsive-image',
+    image: product.featured_image,
+    alt: product.title,
+    widths: '360,540,720,900,1200,1440',
+    sizes: '(min-width: 990px) 50vw, 100vw',
+    class: 'product-card__image',
+    loading: 'lazy',
+    fetchpriority: 'auto'
+  %}
+{%- endcomment -%}
+
+{%- liquid
+  assign img = image
+  if img == blank
+    echo ''
+    break
+  endif
+
+  assign alt_text = alt | default: img.alt | default: shop.name
+  assign image_widths = widths | default: '360,540,720,900,1200,1440'
+  assign image_sizes = sizes | default: '100vw'
+  assign image_class = class | default: ''
+  assign image_loading = loading | default: 'lazy'
+  assign image_fetchpriority = fetchpriority | default: 'auto'
+  assign first_width = image_widths | split: ',' | first | strip | plus: 0
+-%}
+
+{{
+  img
+  | image_url: width: first_width
+  | image_tag:
+    widths: image_widths,
+    sizes: image_sizes,
+    alt: alt_text,
+    class: image_class,
+    loading: image_loading,
+    fetchpriority: image_fetchpriority
+}}
